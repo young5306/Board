@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mvc.model.dao.BoardDao"> <!-- 어떤 dao랑 매핑할건지 -->
+
+	<select id="selectAll" resultType="Board"> <!-- id 메서드명 / RT 반환타입(aliase 설정) -->
+		SELECT * FROM board <!-- 설정 -->
+		<!-- db필드가 세터명과 동일한 dto필드에 들어감 -->
+	</select>
+	
+	<select id="selectOne" resultType="Board" parameterType="int">
+		SELECT * FROM board WHERE board_id = #{boardId}; <!-- #에 dao 파라미터명 (객체면 세터명) -->
+	</select>
+
+</mapper>

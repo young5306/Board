@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mvc.model.dao.BoardDao"> <!-- 어떤 dao랑 매핑할건지 -->
+
+	<!-- 1. 게시글 전체 조회 -->
+	<select id="selectAll" resultType="Board"> <!-- id 메서드명 / RT 반환타입(aliase 설정) -->
+		SELECT * FROM board <!-- 설정 -->
+		<!-- db필드가 세터명과 동일한 dto필드에 들어감 -->
+	</select>
+
+	<!-- 2. 게시글 개별 조회 -->
+	<select id="selectOne" resultType="Board" parameterType="int">
+		SELECT * FROM board WHERE board_id = #{boardId}; <!-- #에 dao 파라미터명 (객체면 
+			세터명) -->
+	</select>
+
+	<!-- 3. 게시글 등록 -->
+	<insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="boardId">
+		INSERT INTO board (title, writer, content)
+		VALUES (#{title}, #{writer}, #{content});
+	</insert>
+
+	<!-- 4. 게시글 수정 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board
+		SET title = #{title}, writer = #{writer}, content = #{content}
+		WHERE board_id = #{boardId};
+	</update>
+	
+	<!-- 5. 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board
+		WHERE board_id = #{boardId};
+	</delete>
+	
+	<!-- 6. 조회수 증가 -->
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE board
+		SET view_cnt = view_cnt + 1
+		WHERE board_id = #{boardId};
+	</update>
+
+	<!-- 7. 검색 기능 -->
+	<select id="search" resultType="Board" parameterType="SearchCondition">
+		SELECT * FROM board
+		<if test="key != 'none'">
+		WHERE ${key} LIKE concat("%", #{word}, "%") <!-- word는 ${}도 가능 but 보안 이슈 -->
+		</if>
+		<if test="orderBy != 'none'">
+		ORDER BY ${orderBy} ${orderByDir}
+		</if>
+	</select>
+
+</mapper>
+
+<!-- 
+#은 하나의 값이 됨.
+$는 sql 일부가 된다. - 값/구조가 될 수 있다. (구조 자체를 바꿀 수 있다)
+1=1 모두 가져옴
+컬럼명 바꿀 때는 구조적 변경 - 달러사용
+보안 털리기 싫으면 달러 쓰지말고 메서드 여러개 만들어라
+<if test="key == 'writer'">
+	WHERE writer LIKE concat("%", #{word}, "%") <!-- word는 ${}도 가능 but 보안 이슈 -->
+</if>
+-->
