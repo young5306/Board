@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mvc.model.dao.BoardDao">
+
+	<!-- 1. 게시글 전체조회 -->
+	<select id="selectAll" resultType="Board"> <!-- 설정 필요 -->
+		SELECT * FROM board; <!-- 설정 필요 -->
+	</select>
+
+	<!-- 2. 게시글 상세보기 -->
+	<select id="selectOne" resultType="Board" parameterType="int">
+		SELECT * FROM board WHERE board_id = #{boardId};
+	</select>
+	
+	<!-- 3. 게시글 등록 -->
+	<insert id="insertBoard" parameterType="Board" keyProperty="boardId" useGeneratedKeys="true"> <!--board_id로 해도 되네 --> 
+		INSERT INTO board (title, writer, content)
+		VALUES (#{title}, #{writer}, #{content});
+	</insert>
+	
+	<!-- 4. 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board
+		WHERE board_id = #{boardId};
+	</delete>
+	
+	<!-- 5. 게시글 수정 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board 
+		SET title = #{title}, writer = #{writer}, content = #{content}, reg_date = now()
+		WHERE board_id = #{boardId};  
+	</update>
+	
+	<!-- 6. 조회수 증가 -->
+	
+	<!-- 7. 검색 기능 -->
+	
+	<!-- 8. 파일 업로드 -->
+
+</mapper>
