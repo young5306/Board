@@ -18,14 +18,14 @@
 
 	<!-- 3. 게시글 등록 -->
 	<insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="boardId">
-		INSERT INTO board (title, writer, content)
-		VALUES (#{title}, #{writer}, #{content});
+		INSERT INTO board (title, writer, content, img)
+		VALUES (#{title}, #{writer}, #{content}, #{img});
 	</insert>
 
 	<!-- 4. 게시글 수정 -->
 	<update id="updateBoard" parameterType="Board">
 		UPDATE board
-		SET title = #{title}, writer = #{writer}, content = #{content}
+		SET title = #{title}, writer = #{writer}, content = #{content}, img = #{img}
 		WHERE board_id = #{boardId};
 	</update>
 	
@@ -62,6 +62,6 @@ $는 sql 일부가 된다. - 값/구조가 될 수 있다. (구조 자체를 바
 컬럼명 바꿀 때는 구조적 변경 - 달러사용
 보안 털리기 싫으면 달러 쓰지말고 메서드 여러개 만들어라
 <if test="key == 'writer'">
-	WHERE writer LIKE concat("%", #{word}, "%") <!-- word는 ${}도 가능 but 보안 이슈 -->
+	WHERE writer LIKE concat("%", #{word}, "%")  word는 ${}도 가능 but 보안 이슈 
 </if>
 -->

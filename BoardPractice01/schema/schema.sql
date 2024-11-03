@@ -8,6 +8,7 @@ CREATE TABLE board (
     writer VARCHAR(20) NOT NULL,
     title VARCHAR(50) NOT NULL,
     content TEXT,
+    img VARCHAR(255),
     view_cnt INT DEFAULT 0,
     reg_date TIMESTAMP DEFAULT now(),
     PRIMARY KEY(board_id)
@@ -40,6 +41,16 @@ INSERT INTO user VALUES ("ssafy", "1234", "김싸피", 200);
 INSERT INTO user VALUES ("admin", "1234", "관리자users", 200);
 
 
+-- CREATE TABLE board_img (
+-- 	img_id INT AUTO_INCREMENT,
+--     board_id INT,
+--     file_name VARCHAR(255),
+--     FOREIGN KEY (`board_id`) REFERENCES `board`(`board_id`) ON DELETE CASCADE, -- 부모 레코드 삭제 시 자식 레코드도 삭제
+--     PRIMARY KEY(img_id)
+-- );
+-- INSERT INTO board_img(board_id, file_name) VALUES ("1", "zzang.png");
+-- INSERT INTO board_img(board_id, file_name) VALUES ("2", "zzang.png");
+
 commit;
 
-SELECT * FROM user;
+-- SELECT * FROM user;

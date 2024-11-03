@@ -8,6 +8,7 @@ public class Board {
 	private String title;
 	private String writer;
 	private String content;
+	private String img = "zzang.png"; // 단일
 	private int viewCnt;
 	private Date regDate;
 	
@@ -35,6 +36,15 @@ public class Board {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	// 단일
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
+	}
+	
 	public int getViewCnt() {
 		return viewCnt;
 	}
@@ -50,8 +60,8 @@ public class Board {
 	
 	@Override
 	public String toString() {
-		return "Board [boardId=" + boardId + ", title=" + title + ", writer=" + writer + ", content=" + content + ", viewCnt="
-				+ viewCnt + ", regDate=" + regDate + "]";
+		return "Board [boardId=" + boardId + ", title=" + title + ", writer=" + writer + ", content=" + content
+				+ ", img=" + img + ", viewCnt=" + viewCnt + ", regDate=" + regDate + "]";
 	}
 	
 }
