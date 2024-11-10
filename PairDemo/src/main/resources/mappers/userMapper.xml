@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mvc.model.dao.UserDao"> <!-- 어떤 dao랑 매핑할건지 -->
+	
+	<select id="selectAll" resultType="User">
+		SELECT * FROM user
+	</select>
+
+</mapper>
+
+
+
+<!-- *map으로 로그인 
+parameterType="Map" 
+WHERE id = #{id} AND password = #{password} 
+-->
