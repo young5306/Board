@@ -40,6 +40,8 @@ public class UserController {
 	 */
 	@PostMapping("/signup")
 	public ResponseEntity<String> signup(@RequestBody User user){
+		System.out.println("======signup======");
+		System.out.println("");
 		boolean isInserted = userService.signup(user);
 		if(!isInserted) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("가입 실패");	
@@ -60,14 +62,18 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody User user, HttpSession session){
+	public ResponseEntity<?> login(@RequestBody User user, HttpSession session){
 		User loginUser = userService.checkLoginUser(user);
-		System.out.println("loginUser : "+ loginUser);
+		 System.out.println("======login======");
+		 System.out.println("loginUser찾기 : "+ loginUser);
 		if(loginUser==null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자가 존재하지 않습니다.");
 		session.setAttribute("loginId", loginUser.getLoginId());
 		session.setMaxInactiveInterval(1800); // 1800초 (30분)
-		System.out.println(session);
-		return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
+		 System.out.println("로그인 시 생성된 세션 : " +session);
+		 System.out.println("로그인 시 생성된 세션 객체 : " + session.getAttribute("loginId"));
+		Map<String, Object> res = new HashMap<>();
+		res.put("loginId", session.getAttribute("loginId"));
+		return ResponseEntity.status(HttpStatus.OK).body(res);
 	}
 	
 	/** 3. 로그아웃
@@ -79,8 +85,10 @@ public class UserController {
 	 */
 	@PostMapping("/logout")
 	public ResponseEntity<String> logout(HttpSession session, HttpServletResponse response){
-		System.out.println(session);
+		System.out.println("======logout======");
+		System.out.println("invalidate전 세션 : " +session.getAttribute("loginId"));
 		session.invalidate();
+		System.out.println("invalidate후 세션 : " +session);
 		
 		// 클라이언트 쿠키 삭제 - 보안 조금 더 강화, 사용자 경험 향상
 //	    Cookie cookie = new Cookie("JSESSIONID", null);
@@ -104,6 +112,7 @@ public class UserController {
 	 */
 	@DeleteMapping("/signout")
 	public ResponseEntity<String> signout(@RequestBody User user, HttpSession session){
+		System.out.println("======signout======");
 		String loginId = (String) session.getAttribute("loginId");
 		String password = user.getPassword();
 		if(loginId == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("로그인 정보가 없습니다.");
@@ -124,26 +133,31 @@ public class UserController {
 	 * @param session
 	 * @return
 	 */
-	@GetMapping("/current")
-	public ResponseEntity<Map<String, Object>> getCurrentUser(HttpSession session){
-		String loginId = (String) session.getAttribute("loginId");
-		if(loginId != null) {
-			Map<String, Object> res = new HashMap<>();
-			res.put("loginId", loginId);
-			return ResponseEntity.status(HttpStatus.OK).body(res);
-		} else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-	}
+//	@GetMapping("/current")
+//	public ResponseEntity<Map<String, Object>> getCurrentUser(HttpSession session){
+//		String loginId = (String) session.getAttribute("loginId");
+//		  System.out.println("======current======");
+//		  System.out.println("현재 세션 : " +session);
+//		  System.out.println("현재 세션 loginId : "+loginId);
+//		if(loginId != null) {
+//			Map<String, Object> res = new HashMap<>();
+//			res.put("loginId", loginId);
+//			return ResponseEntity.status(HttpStatus.OK).body(res);
+//		} else {
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//		}
+//	}
 	
 	/** 6. 사용자 목록
 	 * 
 	 * @return
 	 */
 	@GetMapping("")
-	public ResponseEntity<List<User>> getUsers(){
+	public ResponseEntity<List<User>> getUsers(HttpSession session){
 		List<User> users = userService.getUsers();
-		System.out.println("users"+users);
+		System.out.println("======사용자목록======");
+		System.out.println("세션 : "+session);
+		System.out.println("users : "+users);
 		if(users == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		} else {

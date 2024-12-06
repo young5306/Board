@@ -46,6 +46,7 @@ public class UserController {
 			result.put("message", "로그인 성공");
 			result.put("loginId", loginUser.getLoginId());
 			result.put("access-token", jwtUtil.createToken(loginUser.getLoginId()));
+			System.out.println("");
 			return ResponseEntity.ok(result);
 		}
 		return ResponseEntity.notFound().build();
