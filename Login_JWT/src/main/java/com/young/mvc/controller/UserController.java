@@ -27,7 +27,11 @@ public class UserController {
 	private final UserService userService;
 	private final JwtUtil jwtUtil;
 	
-	// 1. 회원가입
+	/** 1. 회원가입
+	 * 
+	 * @param user
+	 * @return
+	 */
 	@PostMapping("/signup")
 	public ResponseEntity<String> signup(@RequestBody User user){
 		if(userService.signup(user)) {
@@ -36,7 +40,12 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
 	}
 	
-	// 2. 로그인
+	/** 2. 로그인
+	 * 응답에 result = { message:"", loginId:"", access-token:""} 담아 보냄
+	 * 
+	 * @param user
+	 * @return
+	 */
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(@RequestBody User user){
 		Map<String, Object> result = new HashMap<>();
@@ -49,10 +58,12 @@ public class UserController {
 			System.out.println("");
 			return ResponseEntity.ok(result);
 		}
-		return ResponseEntity.notFound().build();
+		result.put("message", "사용자 없음");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
 	}
 	
 	// 3. 로그아웃
+	@PostM
 	
 	
 	// 4. 회원탈퇴
