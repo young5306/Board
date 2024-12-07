@@ -113,6 +113,7 @@ public class UserController {
 	@DeleteMapping("/signout")
 	public ResponseEntity<String> signout(@RequestBody User user, HttpSession session){
 		System.out.println("======signout======");
+		System.out.println(session);
 		String loginId = (String) session.getAttribute("loginId");
 		String password = user.getPassword();
 		if(loginId == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("로그인 정보가 없습니다.");
@@ -123,6 +124,7 @@ public class UserController {
 	    }
 	    
 	    session.invalidate();
+	    System.out.println(session);
 		return ResponseEntity.status(HttpStatus.OK).body("회원탈퇴 성공");
 	}
 	
