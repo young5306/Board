@@ -15,7 +15,9 @@ import com.young.mvc.model.service.UserService;
 import com.young.mvc.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j 
 @RestController
 @RequestMapping("/user-api2")
 @RequiredArgsConstructor
@@ -41,7 +43,8 @@ public class UserController {
 	}
 	
 	/** 2. 로그인
-	 * 응답에 result = { message:"", loginId:"", access-token:""} 담아 보냄
+	 * 응답 본문에 result = { message:"", loginId:""} 담아 보냄
+	 * 토큰은 헤더로 주고 받음.
 	 * 
 	 * @param user
 	 * @return
@@ -53,17 +56,25 @@ public class UserController {
 		
 		if(loginUser != null) {
 			result.put("message", "로그인 성공");
-			result.put("loginId", loginUser.getLoginId());
-			result.put("access-token", jwtUtil.createToken(loginUser.getLoginId()));
-			System.out.println("");
-			return ResponseEntity.ok(result);
+//			result.put("loginId", loginUser.getLoginId());
+			
+			String jwtToken = jwtUtil.createToken(loginUser.getLoginId());
+			log.info("login access-token: {}", jwtToken);
+			return ResponseEntity.status(HttpStatus.OK).header("Authorization", "Bearer "+jwtToken).body(result);
 		}
 		result.put("message", "사용자 없음");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
 	}
 	
 	// 3. 로그아웃
-	@PostM
+	// 유효성 검사는 filter에서 진행.
+	@PostMapping("/logout")
+	public ResponseEntity<?> logout(){
+		// JWT는 서버에서 관리되지 않으므로 서버에서 별도로 할 작업은 없음
+        // 클라이언트에서 JWT를 삭제하도록 유도
+        return ResponseEntity.ok("로그아웃 성공");
+	}
+	
 	
 	
 	// 4. 회원탈퇴
