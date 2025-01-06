@@ -1,5 +1,6 @@
 package com.young.mvc.controller;
 
+import java.net.http.HttpRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import com.young.mvc.model.dto.User;
 import com.young.mvc.model.service.UserService;
 import com.young.mvc.util.JwtUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,9 +71,10 @@ public class UserController {
 	// 3. 로그아웃
 	// 유효성 검사는 filter에서 진행.
 	@PostMapping("/logout")
-	public ResponseEntity<?> logout(){
+	public ResponseEntity<?> logout(HttpServletRequest request){
 		// JWT는 서버에서 관리되지 않으므로 서버에서 별도로 할 작업은 없음
         // 클라이언트에서 JWT를 삭제하도록 유도
+		log.info("logout access-token: {}", request.getHeader("Authorization"));
         return ResponseEntity.ok("로그아웃 성공");
 	}
 	
