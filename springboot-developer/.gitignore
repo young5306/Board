@@ -1,10 +1,16 @@
-.gradle
+# Gradle
+.gradle/
 build/
+.gradle/caches/
+.gradle/daemon/
+.gradle/native/
+.gradle/tmp/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### IntelliJ IDEA ###
+# IntelliJ IDEA
+.idea/
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
@@ -16,27 +22,53 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### Eclipse ###
+# Eclipse
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
-.sts4-cache
+.sts4-cache/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
+# Visual Studio Code
 .vscode/
 
-### Mac OS ###
+# macOS
 .DS_Store
+
+# Temporary and system files
+*.tmp
+*.log
+*.swp
+*.swo
+*.bak
+*.old
+
+# JDK-related folders
+jdks/
+workers/
+
+# OS-specific
+Thumbs.db
+desktop.ini
+
+# Build tools output
+caches/
+
+# Ignore files in root but keep Gradle Wrapper scripts
+!gradlew
+!gradlew.bat
+
+# Ensure src folder is not ignored
+!src/
